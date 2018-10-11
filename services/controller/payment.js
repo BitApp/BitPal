@@ -46,7 +46,7 @@ module.exports = {
     // create svg.js instance
     const draw = SVG(document.documentElement)
 
-    if (/github/i.test(style)) {
+    if (/^github\.flat$/i.test(style)) {
       // use svg.js as normal
       let text = draw.text(str).fill('white')
       text.font({
