@@ -1,26 +1,25 @@
-// const request = require('request-promise')
-//const conf = require('../config')
-// const util = require('../util/util')
 const window = require('svgdom')
 // your font directory
 .setFontDir('./fonts')
 // map the font-family to the file
-.setFontFamilyMappings({'Arial': 'arial.ttf'})
+.setFontFamilyMappings({'Arial': 'arial.ttf', 'DejaVuSans':'DejaVuSans.ttf', 'Verdana':'verdana.ttf', 'sans-serif':'sansserif.ttf'})
 // you can preload your fonts to avoid the loading delay
 // when the font is used the first time
 .preloadFonts()
 
 const SVG      = require('svg.js')(window)
 const document = window.document
+
 const attrs = {
+  fontFamily: 'Verdana,DejaVuSans,sans-serif,Arial',
   bg: {
     icon: '#4b4b4b',
     eth:'#828384',
     bch:'#f5933e'
   },
   text: {
-    paddingLeft: 6,
-    paddingTop: 3.5
+    paddingLeft: 8,
+    paddingTop: 2.4
   }
 }
 const svgs = {
@@ -45,15 +44,23 @@ module.exports = {
     const style = query.style || 'default'
     // create svg.js instance
     const draw = SVG(document.documentElement)
+    draw.clear()
 
     if (/^github\.flat$/i.test(style)) {
       // use svg.js as normal
       let text = draw.text(str).fill('white')
       text.font({
-        family: 'Arial',
+        family: attrs.fontFamily,
         size: 12
       })
       text.build(true).move(20 + attrs.text.paddingLeft, attrs.text.paddingTop)
+      let textShadow = draw.text(str).fill('black')
+      textShadow.font({
+        family: attrs.fontFamily,
+        size: 12
+      }).opacity(0.25)
+      textShadow.build(true).move(20 + attrs.text.paddingLeft, attrs.text.paddingTop + 1)
+
       let textBox = text.bbox()
       let iconRect = draw.rect(20, 20).fill(attrs.bg.icon)
       let rightRect = draw.rect(textBox.width + 18, 20).fill(color || attrs.bg[symbol] || attrs.bg.icon).move(20, 0)
@@ -61,6 +68,47 @@ module.exports = {
 
       text.before(iconRect)
       text.before(rightRect)
+      text.before(textShadow)
+      textShadow.before(iconRect)
+      textShadow.before(rightRect)
+
+      ctx.status = 200
+      ctx.body = draw.svg()
+    } else if (/^github\.classic$/i.test(style) || /^github$/i.test(style)) {
+      let text = draw.text(str).fill('white')
+      text.font({
+        family: attrs.fontFamily,
+        size: 12
+      })
+      text.build(true).move(20 + attrs.text.paddingLeft, attrs.text.paddingTop)
+      let textShadow = draw.text(str).fill('black')
+      textShadow.font({
+        family: attrs.fontFamily,
+        size: 12
+      }).opacity(0.25)
+      textShadow.build(true).move(20 + attrs.text.paddingLeft, attrs.text.paddingTop + 1)
+      let textBox = text.bbox()
+      let iconRect = draw.rect(20, 20).fill(attrs.bg.icon)
+      let rightRect = draw.rect(textBox.width + 18, 20).fill(color || attrs.bg[symbol] || attrs.bg.icon).move(20, 0)
+      let hightlight = draw.gradient('linear', function(stop) {
+        stop.at({ offset: 0, color: '#eee', opacity: 0.1 })
+        stop.at({ offset: 1, opacity: 0.1 })
+      })
+      hightlight.from(0, 0).to(0, 1)
+      draw.rect(iconRect.bbox().width + rightRect.bbox().width, 20).fill(hightlight)
+      draw.svg(svgs[symbol])
+
+      text.before(iconRect)
+      text.before(rightRect)
+      text.before(textShadow)
+      textShadow.before(iconRect)
+      textShadow.before(rightRect)
+
+      var ellipse = draw.rect(iconRect.bbox().width + rightRect.bbox().width, 20).radius(4).fill('#fff')
+
+      var mask = draw.mask().add(ellipse)
+      iconRect.maskWith(mask)
+      rightRect.maskWith(mask)
 
       ctx.status = 200
       ctx.body = draw.svg()
