@@ -38,11 +38,11 @@ const svgs = {
 module.exports = {
   create: async function(ctx, next) {
     const query = ctx.request.query
-    const symbol = (ctx.params.symbol || 'bch').toLowerCase()
-    const amount = ctx.params.amount * 1
-    const str = ctx.params.text || 'bch'
+    const symbol = (ctx.params.symbol || query.symbol || '').toLowerCase()
+    const amount = (ctx.params.amount || query.amount) * 1
+    const str = ctx.params.text || query.text || ''
     const color = query.color
-    const style = query.style || 'github'
+    const style = query.style || 'default'
     // create svg.js instance
     const draw = SVG(document.documentElement)
     draw.clear()
