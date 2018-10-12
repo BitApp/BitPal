@@ -4,4 +4,4 @@
 
 ![sss](https://www.coinex.com/_nuxt/img/coin-ex-logo.c2d86a1.svg)
 
-![gogogo](http://localhost:4002/bch/1/支付1BCH/?style=github)
+![gogogo](http://localhost:4002/bch/1/支付1BCH/github.flat)

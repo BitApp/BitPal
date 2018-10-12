@@ -49,7 +49,7 @@ module.exports = {
     const amount = (ctx.params.amount || query.amount) * 1
     const str = ctx.params.text || query.text || 'unknown'
     const color = query.color
-    const style = query.style || 'github'
+    const style = (ctx.params.style || query.style) || 'default'
     // create svg.js instance
     const draw = SVG(document.documentElement)
     draw.clear()
