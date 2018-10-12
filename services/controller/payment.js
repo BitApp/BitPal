@@ -75,8 +75,8 @@ module.exports = {
       draw.width(iconRect.bbox().width + rightRect.bbox().width).height(20)
 
       ctx.status = 200
-      ctx.type = 'image/svg+xml;charset=utf-8'
-      ctx.set('Cache-Control', 'public, max-age=60, stale-while-revalidate=86400, stale-if-error=86400, s-maxage=360')
+      ctx.type = 'image/svg+xml;charset=utf-8;'
+      
       ctx.body = draw.svg()
     } else if (/^github\.classic$/i.test(style) || /^github$/i.test(style)) {
       let text = draw.text(str).fill('white')
@@ -117,7 +117,7 @@ module.exports = {
       rightRect.maskWith(mask)
 
       ctx.status = 200
-      ctx.type = 'image/svg+xml;charset=utf-8'
+      ctx.type = 'image/svg+xml;charset=utf-8;'
       ctx.body = draw.svg()
     } else {
       ctx.status = 200
