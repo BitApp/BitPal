@@ -120,21 +120,9 @@ module.exports = {
       ctx.status = 200
       ctx.type = 'image/svg+xml;charset=utf-8;'
 
-      //const png = await convert(draw.svg())
-      // ctx.set('Content-Type', 'image/png')
-      ctx.body = `<svg width="97.6" height="20" viewBox="0 0 976 200" xmlns="http://www.w3.org/2000/svg">
-      <g>
-        <rect fill="#555" width="736" height="200"/>
-        <rect fill="#0052cc" x="736" width="240" height="200"/>
-      </g>
-      <g fill="#fff" text-anchor="start" font-family="Verdana,DejaVu Sans,sans-serif" font-size="110">
-        <text x="60" y="148" textLength="636" fill="#000" opacity="0.1">ES Modules</text>
-        <text x="50" y="138" textLength="636">ES Modules</text>
-        <text x="791" y="148" textLength="140" fill="#000" opacity="0.1">54</text>
-        <text x="781" y="138" textLength="140">54</text>
-      </g>
-      
-    </svg>`
+      //const png = await convert(draw.svg());
+      // ctx.set('Content-Type', 'image/png');
+      ctx.body = draw.svg()
     } else {
       ctx.status = 200
       ctx.body = 'bitapp payment button'
