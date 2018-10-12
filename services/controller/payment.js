@@ -16,7 +16,8 @@ const attrs = {
   bg: {
     icon: '#4b4b4b',
     eth:'#828384',
-    bch:'#f5933e'
+    bch:'#f5933e',
+    unknown:'#999'
   },
   text: {
     paddingLeft: 8,
@@ -60,17 +61,17 @@ module.exports = {
         family: attrs.fontFamily,
         size: 12
       })
-      text.build(true).move(20 + attrs.text.paddingLeft, attrs.text.paddingTop)
+      text.build(true).move(24 + attrs.text.paddingLeft, attrs.text.paddingTop)
       let textShadow = draw.text(str).fill('black')
       textShadow.font({
         family: attrs.fontFamily,
         size: 12
       }).opacity(0.25)
-      textShadow.build(true).move(20 + attrs.text.paddingLeft, attrs.text.paddingTop + 1)
+      textShadow.build(true).move(24 + attrs.text.paddingLeft + 1, attrs.text.paddingTop + 1)
 
       let textBox = text.bbox()
-      let iconRect = draw.rect(20, 20).fill(attrs.bg.icon)
-      let rightRect = draw.rect(textBox.width + 18, 20).fill(color || attrs.bg[symbol] || attrs.bg.icon).move(20, 0)
+      let iconRect = draw.rect(24, 20).fill(attrs.bg.icon)
+      let rightRect = draw.rect(textBox.width + 18, 20).fill(color || attrs.bg[symbol] || attrs.bg.icon).move(24, 0)
       draw.svg(svgs[symbol])
 
       text.before(iconRect)
@@ -83,24 +84,24 @@ module.exports = {
 
       ctx.status = 200
       ctx.type = 'image/svg+xml;charset=utf-8;'
-      
       ctx.body = draw.svg()
+
     } else if (/^github\.classic$/i.test(style) || /^github$/i.test(style)) {
       let text = draw.text(str).fill('white')
       text.font({
         family: attrs.fontFamily,
         size: 12
       })
-      text.build(true).move(20 + attrs.text.paddingLeft, attrs.text.paddingTop)
+      text.build(true).move(24 + attrs.text.paddingLeft, attrs.text.paddingTop)
       let textShadow = draw.text(str).fill('black')
       textShadow.font({
         family: attrs.fontFamily,
         size: 12
       }).opacity(0.25)
-      textShadow.build(true).move(20 + attrs.text.paddingLeft, attrs.text.paddingTop + 1)
+      textShadow.build(true).move(24 + attrs.text.paddingLeft + 1, attrs.text.paddingTop + 1)
       let textBox = text.bbox()
-      let iconRect = draw.rect(20, 20).fill(attrs.bg.icon)
-      let rightRect = draw.rect(textBox.width + 18, 20).fill(color || attrs.bg[symbol] || attrs.bg.icon).move(20, 0)
+      let iconRect = draw.rect(24, 20).fill(attrs.bg.icon)
+      let rightRect = draw.rect(textBox.width + 18, 20).fill(color || attrs.bg[symbol] || attrs.bg.icon).move(24, 0)
       let hightlight = draw.gradient('linear', function(stop) {
         stop.at({ offset: 0, color: '#eee', opacity: 0.1 })
         stop.at({ offset: 1, opacity: 0.1 })
@@ -129,6 +130,7 @@ module.exports = {
       //const png = await convert(draw.svg());
       // ctx.set('Content-Type', 'image/png');
       ctx.body = draw.svg()
+
     } else {
       ctx.status = 200
       ctx.body = 'bitapp payment button'
