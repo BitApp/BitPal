@@ -4,5 +4,6 @@ const Redis = require('ioredis')
 
 module.exports = function(routers) {
   // button
+  routers.get('/', payment.create)
   routers.get('/:symbol/:amount/:text', payment.create)
 }
