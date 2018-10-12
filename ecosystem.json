@@ -1,15 +1,15 @@
 {
   "apps" : [
     {
-      "name"      : "approles-service",
-      "instance_var":"APPROLES",
+      "name"      : "approles-payment",
+      "instance_var":"APPROLES_PAYMENT",
       "script"    : "app.js",
       "instances" : 0,
       "exec_mode" : "cluster",
       "watch"     : false,
       "ignore_watch" : ["logs"],
-      "error_file":"logs/approles.service.stderr.log",
-      "out_file"  :"logs/approles.service.stdout.log",
+      "error_file":"logs/approles.payment.stderr.log",
+      "out_file"  :"logs/approles.payment.stdout.log",
       "mergeLogs" : false,
       "env": {
         "NODE_ENV": "pm2-dev",
