@@ -73,6 +73,7 @@ module.exports = {
       textShadow.before(rightRect)
 
       ctx.status = 200
+      ctx.type = 'image/svg+xml;charset=utf-8'
       ctx.body = draw.svg()
     } else if (/^github\.classic$/i.test(style) || /^github$/i.test(style)) {
       let text = draw.text(str).fill('white')
@@ -111,6 +112,7 @@ module.exports = {
       rightRect.maskWith(mask)
 
       ctx.status = 200
+      ctx.type = 'image/svg+xml;charset=utf-8'
       ctx.body = draw.svg()
     } else {
       ctx.status = 200
