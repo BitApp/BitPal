@@ -1,7 +1,7 @@
 # BitApp Payment
 
 
-![捐助](https://flat.badgen.net/github/label-issues/nodejs/node/)
+![捐助](https://badgen.net/github/label-issues/nodejs/node/)
 
 
 ![sss](https://www.coinex.com/_nuxt/img/coin-ex-logo.c2d86a1.svg)
