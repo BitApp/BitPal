@@ -7,6 +7,7 @@ const window = require('svgdom')
 // when the font is used the first time
 .preloadFonts()
 
+const { convert } = require('convert-svg-to-png')
 const SVG      = require('svg.js')(window)
 const document = window.document
 
@@ -117,8 +118,13 @@ module.exports = {
       rightRect.maskWith(mask)
 
       ctx.status = 200
-      ctx.type = 'image/svg+xml;charset=utf-8;'
-      ctx.body = draw.svg()
+      // ctx.type = 'image/svg+xml;charset=utf-8;'
+
+      const png = await convert(draw.svg());
+ 
+      ctx.set('Content-Type', 'image/png');
+
+      ctx.body = png
     } else {
       ctx.status = 200
       ctx.body = 'bitapp payment button'
