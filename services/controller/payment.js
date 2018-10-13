@@ -54,7 +54,7 @@ const svgs = {
     .st4{fill:url(#Triangle_3_);}
     .st5{fill:url(#Triangle_4_);}
     </style>
-    <g id="ETH" style="transform:scale(1.1) translate(10px,10px);width:40px">
+    <g id="ETH" style="transform:scale(1.1) translate(11px,11px);width:40px">
     <g transform="translate(13.000000, 10.000000)">
         <linearGradient id="Triangle-2_1_" gradientUnits="userSpaceOnUse" x1="-12.3304" y1="11.4739" x2="-12.3304" y2="12.3991" gradientTransform="matrix(13.6047 0 0 -8.063 164.4451 96.2901)">
         <stop  offset="0" style="stop-color:#490DB1"/>
@@ -93,7 +93,7 @@ const svgs = {
       <polygon id="Triangle_9_" class="st5" points="-3.3,-10 -3.3,4 3.2,0.2 		"/>
     </g>
     </g>`,
-  bchDefault:`<path fill="#fff" style="transform:scale(1.1) translate(10px,10px);width:40px" d="M7.891,2.66L6.627,0l-1.65,0.826l1.239,2.608c-0.431,0.222-0.867,0.457-1.3,0.691L3.661,1.484L2.014,2.307l1.273,2.612
+  bchDefault:`<path fill="#fff" style="transform:scale(1.1) translate(11px,11px);width:40px" d="M7.891,2.66L6.627,0l-1.65,0.826l1.239,2.608c-0.431,0.222-0.867,0.457-1.3,0.691L3.661,1.484L2.014,2.307l1.273,2.612
 	C3.13,5.153,3.025,5.225,2.8,5.361C2.65,5.451,1.717,5.906,0,6.727l0.874,1.731c0,0,1.199-0.646,1.19-0.613
 	c0.664-0.342,1.072-0.072,1.301,0.225l1.53,3.034c-0.071-0.148,0.646,1.271,2.149,4.263c0.075,0.221,0.118,0.614-0.345,0.854
 	c0.03,0.008-1.192,0.613-1.192,0.613l0.65,2.104l2.134-1.099c0.397-0.203,0.624-0.324,1.009-0.52L10.609,20l1.683-0.82l-1.306-2.677
@@ -191,7 +191,7 @@ module.exports = {
       ctx.body = draw.svg()
 
     } else if(/^default\.flat$/i.test(style)) {
-        const shadowOffset = 2
+        const shadowOffset = 3
         // 默认按钮样式
         let text = draw.text(str).fill('#333')
         text.font({
@@ -227,7 +227,7 @@ module.exports = {
         ctx.type = 'image/svg+xml;charset=utf-8;'
         ctx.body = draw.svg()
     } else {
-      const shadowOffset = 2
+      const shadowOffset = 3
       // 默认按钮样式
       let text = draw.text(str).fill('#333')
       text.font({
