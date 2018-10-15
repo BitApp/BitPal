@@ -17,7 +17,7 @@ const attrs = {
   bg: {
     icon: '#4b4b4b',
     eth:'#828384',
-    bch:'#f5933e',
+    bch:'#ff7900',
     unknown:'#999'
   },
   textGithub: {
@@ -238,12 +238,12 @@ module.exports = {
       let textBox = text.bbox()
       let iconRect = draw.rect(40, 40).fill(attrs.bg[symbol]).move(shadowOffset, shadowOffset)
       let rightRect = draw.rect(textBox.width + 23, 40).fill(color || 'white').move(40 + shadowOffset, shadowOffset)
-      let hightlight = draw.gradient('linear', function(stop) {
-        stop.at({ offset: 0, color: '#eee', opacity: 0.1 })
-        stop.at({ offset: 1, opacity: 0.1 })
-      })
-      hightlight.from(0, 0).to(0, 1)
-      let hightLightRect = draw.rect(iconRect.bbox().width + rightRect.bbox().width, 40).fill(hightlight).move(shadowOffset, shadowOffset)
+      // let hightlight = draw.gradient('linear', function(stop) {
+      //   stop.at({ offset: 0, color: '#eee', opacity: 0.1 })
+      //   stop.at({ offset: 1, opacity: 0.1 })
+      // })
+      // hightlight.from(0, 0).to(0, 1)
+      // let hightLightRect = draw.rect(iconRect.bbox().width + rightRect.bbox().width, 40).fill(hightlight).move(shadowOffset, shadowOffset)
       draw.svg(svgs[symbol+'Default'])
 
       let showdowRect = draw.rect(iconRect.bbox().width + rightRect.bbox().width, 40).move(shadowOffset, shadowOffset).opacity(0.5)
@@ -261,13 +261,13 @@ module.exports = {
       var clip = draw.clip().add(ellipse)
       iconRect.clipWith(clip)
       rightRect.clipWith(clip)
-      hightLightRect.clipWith(clip)
+      //hightLightRect.clipWith(clip)
 
       var shadowBox = draw.rect(iconRect.bbox().width + rightRect.bbox().width + shadowOffset * 2, 40 + shadowOffset * 2).radius(4)
       showdowRect.clipWith(draw.clip().add(shadowBox))
 
       ctx.status = 200
-      ctx.type = 'image/svg+xml;charset=utf-8;'
+      //ctx.type = 'image/svg+xml;charset=utf-8;'
       ctx.body = draw.svg()
     }
   }
