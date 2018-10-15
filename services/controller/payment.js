@@ -112,7 +112,7 @@ module.exports = {
     const color = query.color
     const style = (ctx.params.style || query.style) || 'default'
     // create svg.js instance
-    const draw = SVG(document.documentElement)
+    let draw = SVG(document.documentElement)
     draw.clear()
 
     if (/^github\.flat$/i.test(style)) {
@@ -267,7 +267,7 @@ module.exports = {
       showdowRect.clipWith(draw.clip().add(shadowBox))
 
       ctx.status = 200
-      //ctx.type = 'image/svg+xml;charset=utf-8;'
+      ctx.type = 'image/svg+xml;charset=utf-8;'
       ctx.body = draw.svg()
     }
   }
