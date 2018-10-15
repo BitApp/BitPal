@@ -263,7 +263,7 @@ module.exports = {
       showdowRect.clipWith(draw.clip().add(shadowBox))
 
       ctx.status = 200
-      // ctx.type = 'image/svg+xml;charset=utf-8;'
+      ctx.type = 'image/svg+xml;charset=utf-8;'
       ctx.body = draw.svg()
     }
   }
