@@ -122,7 +122,7 @@ module.exports = {
     }
     link.attr('onclick', 
     `if(window.bitapp){
-      bitapp.wallet.requestPay('', '${symbol.toLowerCase()}', '${amount * hash[symbol]}', '${address}', ${null}, '', '${str}')
+      bitapp.wallet.requestPayNewUI('', '${symbol.toLowerCase()}', '${amount * hash[symbol]}', '${address}', ${null}, '', '${str}')
       return false
     }`)
 
@@ -263,7 +263,7 @@ module.exports = {
       showdowRect.clipWith(draw.clip().add(shadowBox))
 
       ctx.status = 200
-      ctx.type = 'image/svg+xml;charset=utf-8;'
+      // ctx.type = 'image/svg+xml;charset=utf-8;'
       ctx.body = draw.svg()
     }
   }
