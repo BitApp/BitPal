@@ -16,7 +16,7 @@ const attrs = {
   fontFamily: 'Verdana,DejaVuSans,sans-serif,Arial',
   bg: {
     icon: '#4b4b4b',
-    eth:'#828384',
+    eth:'#555555',
     bch:'#ff7900',
     unknown:'#999'
   },
@@ -54,7 +54,7 @@ const svgs = {
     .st4{fill:url(#Triangle_3_);}
     .st5{fill:url(#Triangle_4_);}
     </style>
-    <g id="ETH" style="transform:scale(1.1) translate(11px,11px);width:40px">
+    <g id="ETH" style="transform:scale(1.1) translate(12px,11px);width:40px">
     <g transform="translate(13.000000, 10.000000)">
         <linearGradient id="Triangle-2_1_" gradientUnits="userSpaceOnUse" x1="-12.3304" y1="11.4739" x2="-12.3304" y2="12.3991" gradientTransform="matrix(13.6047 0 0 -8.063 164.4451 96.2901)">
         <stop  offset="0" style="stop-color:#490DB1"/>
@@ -93,7 +93,7 @@ const svgs = {
       <polygon id="Triangle_9_" class="st5" points="-3.3,-10 -3.3,4 3.2,0.2 		"/>
     </g>
     </g>`,
-  bchDefault:`<path fill="#fff" style="transform:scale(1.1) translate(11px,11px);width:40px" d="M7.891,2.66L6.627,0l-1.65,0.826l1.239,2.608c-0.431,0.222-0.867,0.457-1.3,0.691L3.661,1.484L2.014,2.307l1.273,2.612
+  bchDefault:`<path fill="#fff" style="transform:scale(1.1) translate(12px,11px);width:40px" d="M7.891,2.66L6.627,0l-1.65,0.826l1.239,2.608c-0.431,0.222-0.867,0.457-1.3,0.691L3.661,1.484L2.014,2.307l1.273,2.612
 	C3.13,5.153,3.025,5.225,2.8,5.361C2.65,5.451,1.717,5.906,0,6.727l0.874,1.731c0,0,1.199-0.646,1.19-0.613
 	c0.664-0.342,1.072-0.072,1.301,0.225l1.53,3.034c-0.071-0.148,0.646,1.271,2.149,4.263c0.075,0.221,0.118,0.614-0.345,0.854
 	c0.03,0.008-1.192,0.613-1.192,0.613l0.65,2.104l2.134-1.099c0.397-0.203,0.624-0.324,1.009-0.52L10.609,20l1.683-0.82l-1.306-2.677
@@ -107,23 +107,34 @@ module.exports = {
   create: async function(ctx, next) {
     const query = ctx.request.query
     const symbol = (ctx.params.symbol || query.symbol || 'unknown').toLowerCase()
+    const address = ctx.params.address || query.address
     const amount = (ctx.params.amount || query.amount) * 1
     const str = ctx.params.text || query.text || 'unknown'
     const color = query.color
     const style = (ctx.params.style || query.style) || 'default'
     // create svg.js instance
-    let draw = SVG(document.documentElement)
+    const draw = SVG(document.documentElement)
     draw.clear()
+    let link = draw.link('https://payment.bitapp.net/install').target('_blank')
+    const hash = {
+      'eth': 1e18,
+      'bch': 1e8
+    }
+    link.attr('onclick', 
+    `if(window.bitapp){
+      bitapp.wallet.requestPay('', '${symbol.toLowerCase()}', '${amount * hash[symbol]}', '${address}', ${null}, '', '${str}')
+      return false
+    }`)
 
     if (/^github\.flat$/i.test(style)) {
       // use svg.js as normal
-      let text = draw.text(str).fill('white')
+      let text = link.text(str).fill('white')
       text.font({
         family: attrs.fontFamily,
         size: 12
       })
       text.move(24 + attrs.textGithub.paddingLeft, attrs.textGithub.paddingTop)
-      let textShadow = draw.text(str).fill('black')
+      let textShadow = link.text(str).fill('black')
       textShadow.font({
         family: attrs.fontFamily,
         size: 12
@@ -131,11 +142,10 @@ module.exports = {
       textShadow.move(24 + attrs.textGithub.paddingLeft + 1, attrs.textGithub.paddingTop + 1)
 
       let textBox = text.bbox()
-      let iconRect = draw.rect(24, 20).fill(attrs.bg.icon)
-      let rightRect = draw.rect(textBox.width + 18, 20).fill(color || attrs.bg[symbol] || attrs.bg.icon).move(24, 0)
-      draw.svg(svgs[symbol+'Github'])
+      let iconRect = link.rect(24, 20).fill(attrs.bg.icon)
+      let rightRect = link.rect(textBox.width + 18, 20).fill(color || attrs.bg[symbol] || attrs.bg.icon).move(24, 0)
+      link.svg(svgs[symbol+'Github'])
 
-      text.before(iconRect)
       text.before(rightRect)
       text.before(textShadow)
       textShadow.before(iconRect)
@@ -148,30 +158,29 @@ module.exports = {
       ctx.body = draw.svg()
 
     } else if (/^github\.classic$/i.test(style) || /^github$/i.test(style)) {
-      let text = draw.text(str).fill('white')
+      let text = link.text(str).fill('white')
       text.font({
         family: attrs.fontFamily,
         size: 12
       })
       text.move(24 + attrs.textGithub.paddingLeft, attrs.textGithub.paddingTop)
-      let textShadow = draw.text(str).fill('black')
+      let textShadow = link.text(str).fill('black')
       textShadow.font({
         family: attrs.fontFamily,
         size: 12
       }).opacity(0.25)
       textShadow.move(24 + attrs.textGithub.paddingLeft + 1, attrs.textGithub.paddingTop + 1)
       let textBox = text.bbox()
-      let iconRect = draw.rect(24, 20).fill(attrs.bg.icon)
-      let rightRect = draw.rect(textBox.width + 18, 20).fill(color || attrs.bg[symbol] || attrs.bg.icon).move(24, 0)
-      let hightlight = draw.gradient('linear', function(stop) {
+      let iconRect = link.rect(24, 20).fill(attrs.bg.icon)
+      let rightRect = link.rect(textBox.width + 18, 20).fill(color || attrs.bg[symbol] || attrs.bg.icon).move(24, 0)
+      let hightlight = link.gradient('linear', function(stop) {
         stop.at({ offset: 0, color: '#eee', opacity: 0.1 })
         stop.at({ offset: 1, opacity: 0.1 })
       })
       hightlight.from(0, 0).to(0, 1)
-      let hightlightRect = draw.rect(iconRect.bbox().width + rightRect.bbox().width, 20).fill(hightlight)
-      draw.svg(svgs[symbol+'Github'])
+      link.rect(iconRect.bbox().width + rightRect.bbox().width, 20).fill(hightlight)
+      link.svg(svgs[symbol+'Github'])
 
-      text.before(iconRect)
       text.before(rightRect)
       text.before(textShadow)
       textShadow.before(iconRect)
@@ -182,34 +191,31 @@ module.exports = {
       var ellipse = draw.rect(iconRect.bbox().width + rightRect.bbox().width, 20).radius(4).fill('#fff')
 
       var clip = draw.clip().add(ellipse)
-      iconRect.clipWith(clip)
-      rightRect.clipWith(clip)
-      hightlightRect.clipWith(clip)
+      link.clipWith(clip)
 
       ctx.status = 200
       ctx.type = 'image/svg+xml;charset=utf-8;'
       ctx.body = draw.svg()
 
     } else if(/^default\.flat$/i.test(style)) {
-        const shadowOffset = 3
+        const shadowOffset = 4
         // 默认按钮样式
-        let text = draw.text(str).fill('#333')
+        let text = link.text(str).fill('#333')
         text.font({
           family: attrs.fontFamily,
           size: 14
         })
         text.move(40 + shadowOffset + attrs.textDefault.paddingLeft, attrs.textDefault.paddingTop + shadowOffset)
         let textBox = text.bbox()
-        let iconRect = draw.rect(40, 40).fill(attrs.bg[symbol]).move(shadowOffset, shadowOffset)
-        let rightRect = draw.rect(textBox.width + 23, 40).fill(color || 'white').move(40 + shadowOffset, shadowOffset)
-        draw.svg(svgs[symbol+'Default'])
+        let iconRect = link.rect(40, 40).fill(attrs.bg[symbol]).move(shadowOffset, shadowOffset)
+        let rightRect = link.rect(textBox.width + 23, 40).fill(color || 'white').move(40 + shadowOffset, shadowOffset)
+        link.svg(svgs[symbol+'Default'])
   
-        let showdowRect = draw.rect(iconRect.bbox().width + rightRect.bbox().width, 40).move(shadowOffset, shadowOffset).opacity(0.5)
+        let showdowRect = draw.rect(iconRect.bbox().width + rightRect.bbox().width, 40).move(shadowOffset, shadowOffset).fill('#333333').opacity(0.2)
         showdowRect.filter(add=>{
-         add.offset(0, 0).in(add.sourceAlpha).gaussianBlur(2)
+         add.offset(0, 1).in(add.sourceAlpha).gaussianBlur(2)
         })
         
-        text.before(iconRect)
         text.before(rightRect)
         showdowRect.back()
   
@@ -217,8 +223,7 @@ module.exports = {
         var ellipse = draw.rect(iconRect.bbox().width + rightRect.bbox().width, 40).move(shadowOffset, shadowOffset)
   
         var clip = draw.clip().add(ellipse)
-        iconRect.clipWith(clip)
-        rightRect.clipWith(clip)
+        link.clipWith(clip)
   
         var shadowBox = draw.rect(iconRect.bbox().width + rightRect.bbox().width + shadowOffset * 2, 40 + shadowOffset * 2)
         showdowRect.clipWith(draw.clip().add(shadowBox))
@@ -227,31 +232,24 @@ module.exports = {
         ctx.type = 'image/svg+xml;charset=utf-8;'
         ctx.body = draw.svg()
     } else {
-      const shadowOffset = 3
+      const shadowOffset = 4
       // 默认按钮样式
-      let text = draw.text(str).fill('#333')
+      let text = link.text(str).fill('#333')
       text.font({
         family: attrs.fontFamily,
         size: 14
       })
       text.move(40 + shadowOffset + attrs.textDefault.paddingLeft, attrs.textDefault.paddingTop + shadowOffset)
       let textBox = text.bbox()
-      let iconRect = draw.rect(40, 40).fill(attrs.bg[symbol]).move(shadowOffset, shadowOffset)
-      let rightRect = draw.rect(textBox.width + 23, 40).fill(color || 'white').move(40 + shadowOffset, shadowOffset)
-      // let hightlight = draw.gradient('linear', function(stop) {
-      //   stop.at({ offset: 0, color: '#eee', opacity: 0.1 })
-      //   stop.at({ offset: 1, opacity: 0.1 })
-      // })
-      // hightlight.from(0, 0).to(0, 1)
-      // let hightLightRect = draw.rect(iconRect.bbox().width + rightRect.bbox().width, 40).fill(hightlight).move(shadowOffset, shadowOffset)
-      draw.svg(svgs[symbol+'Default'])
+      let iconRect = link.rect(40, 40).fill(attrs.bg[symbol]).move(shadowOffset, shadowOffset)
+      let rightRect = link.rect(textBox.width + 23, 40).fill(color || 'white').move(40 + shadowOffset, shadowOffset)
+      link.svg(svgs[symbol+'Default'])
 
-      let showdowRect = draw.rect(iconRect.bbox().width + rightRect.bbox().width, 40).move(shadowOffset, shadowOffset).opacity(0.5)
+      let showdowRect = draw.rect(iconRect.bbox().width + rightRect.bbox().width, 40).move(shadowOffset, shadowOffset).fill('#333333').opacity(0.2)
       showdowRect.filter(add=>{
-       add.offset(0, 0).in(add.sourceAlpha).gaussianBlur(2)
+       add.offset(0, 1).in(add.sourceAlpha).gaussianBlur(2)
       })
       
-      text.before(iconRect)
       text.before(rightRect)
       showdowRect.back()
 
@@ -259,15 +257,13 @@ module.exports = {
       var ellipse = draw.rect(iconRect.bbox().width + rightRect.bbox().width, 40).radius(4).move(shadowOffset, shadowOffset)
 
       var clip = draw.clip().add(ellipse)
-      iconRect.clipWith(clip)
-      rightRect.clipWith(clip)
-      //hightLightRect.clipWith(clip)
+      link.clipWith(clip)
 
       var shadowBox = draw.rect(iconRect.bbox().width + rightRect.bbox().width + shadowOffset * 2, 40 + shadowOffset * 2).radius(4)
       showdowRect.clipWith(draw.clip().add(shadowBox))
 
       ctx.status = 200
-      ctx.type = 'image/svg+xml;charset=utf-8;'
+      //ctx.type = 'image/svg+xml;charset=utf-8;'
       ctx.body = draw.svg()
     }
   }
