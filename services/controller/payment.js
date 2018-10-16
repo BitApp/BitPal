@@ -112,6 +112,7 @@ module.exports = {
     const str = ctx.params.text || query.text || 'unknown'
     const color = query.color
     const style = (ctx.params.style || query.style) || 'default'
+    const responseType = query.response || 'image/svg+xml;charset=utf-8;'
     // create svg.js instance
     const draw = SVG(document.documentElement)
     draw.clear()
@@ -154,7 +155,7 @@ module.exports = {
       draw.width(iconRect.bbox().width + rightRect.bbox().width).height(20)
 
       ctx.status = 200
-      ctx.type = 'image/svg+xml;charset=utf-8;'
+      ctx.type = responseType
       ctx.body = draw.svg()
 
     } else if (/^github\.classic$/i.test(style) || /^github$/i.test(style)) {
@@ -194,7 +195,7 @@ module.exports = {
       link.clipWith(clip)
 
       ctx.status = 200
-      ctx.type = 'image/svg+xml;charset=utf-8;'
+      ctx.type = responseType
       ctx.body = draw.svg()
 
     } else if(/^default\.flat$/i.test(style)) {
@@ -229,7 +230,7 @@ module.exports = {
         showdowRect.clipWith(draw.clip().add(shadowBox))
   
         ctx.status = 200
-        ctx.type = 'image/svg+xml;charset=utf-8;'
+        ctx.type = responseType
         ctx.body = draw.svg()
     } else {
       const shadowOffset = 4
@@ -263,7 +264,7 @@ module.exports = {
       showdowRect.clipWith(draw.clip().add(shadowBox))
 
       ctx.status = 200
-      ctx.type = 'image/svg+xml;charset=utf-8;'
+      ctx.type = responseType
       ctx.body = draw.svg()
     }
   }
