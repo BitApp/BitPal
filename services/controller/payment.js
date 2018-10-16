@@ -116,7 +116,7 @@ module.exports = {
     // create svg.js instance
     const draw = SVG(document.documentElement)
     draw.clear()
-    let link = draw.link('https://payment.bitapp.net/install').target('_blank')
+    let link = draw.link('https://www.bitapp.net/install.html').target('_blank')
     const hash = {
       'eth': 1e18,
       'bch': 1e8
