@@ -1,6 +1,6 @@
 # BitApp Payment
 
-![github.bch](https://payment.bitapp.net/bch/1/支付1BCH/github)
+[![github.bch](https://payment.bitapp.net/bch/1/支付1BCH/github)](bitcoincash:xxxx)
 ![github.eth](https://payment.bitapp.net/eth/1/支付1ETH/github)
 
 ![github.flat.bch](https://payment.bitapp.net/bch/1/支付1BCH/github.flat)

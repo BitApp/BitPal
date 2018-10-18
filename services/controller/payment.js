@@ -107,8 +107,6 @@ module.exports = {
   create: async function(ctx, next) {
     const query = ctx.request.query
     const symbol = (ctx.params.symbol || query.symbol || 'unknown').toLowerCase()
-    const address = ctx.params.address || query.address
-    const amount = (ctx.params.amount || query.amount) * 1
     const str = ctx.params.text || query.text || 'unknown'
     const color = query.color
     const style = (ctx.params.style || query.style) || 'default'
@@ -117,15 +115,6 @@ module.exports = {
     const draw = SVG(document.documentElement)
     draw.clear()
     let link = draw.link('https://www.bitapp.net/install').target('_blank')
-    const hash = {
-      'eth': 1e18,
-      'bch': 1e8
-    }
-    link.attr('onclick', 
-    `if(window.bitapp){
-      bitapp.wallet.requestPayNewUI('', '${symbol.toLowerCase()}', '${amount * hash[symbol]}', '${address}', ${null}, '', '${str}')
-      return false
-    }`)
 
     if (/^github\.flat$/i.test(style)) {
       // use svg.js as normal
