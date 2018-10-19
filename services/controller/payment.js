@@ -8,7 +8,7 @@ const window = require('svgdom')
 .preloadFonts()
 
 // const { convert } = require('convert-svg-to-png')
-const SVG      = require('svg.js')(window)
+const SVG = require('svg.js')(window)
 require('svg.filter.js')
 const document = window.document
 
