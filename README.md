@@ -2,4 +2,4 @@
 
 [![github.bch](https://payment.bitapp.net/bch/支付0.01BCH/github)](https://www.bitapp.net/install?bitcoincash:qpu6ays50uzsa3wmmzmmqrntps90f47xkq3qtfkha4/0.01/资助%200.01%20BCH)
 
-[![github.eth](https://payment.bitapp.net/eth/支付0.01ETH/github)](https://www.bitapp.net/install?bitcoincash:qpu6ays50uzsa3wmmzmmqrntps90f47xkq3qtfkha4/0.01/资助%200.01%20ETH)
+[![github.eth](https://payment.bitapp.net/eth/支付0.01ETH/github)](https://www.bitapp.net/install?eth:0xe5903117222cd6e87deaa0cb60b3e394896645ae/0.01/资助%200.01%20ETH)
