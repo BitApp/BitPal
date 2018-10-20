@@ -26,7 +26,7 @@ const attrs = {
   },
   textDefault: {
     paddingLeft: 11,
-    paddingTop: 3
+    paddingTop: 2
   },
   textDefaultBig: {
     paddingLeft: 11,
