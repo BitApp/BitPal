@@ -40,6 +40,6 @@ app.use(serve("./static"))
 //     app.use(ui(document, "/doc"))
 // }
 
-app.listen(4002, "0.0.0.0", ()=>{
-  console.info( `Server listening on 0.0.0.0:4002` )
+app.listen(5002, "0.0.0.0", ()=>{
+  console.info( `Server listening on 0.0.0.0:5002` )
 })
